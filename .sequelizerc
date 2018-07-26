@@ -1,0 +1,11 @@
+//That files will tell Sequelize initialization to generate config, models, seeders and
+//migrations files to specific directories
+
+const path = require('path');
+
+module.exports = {
+  "config": path.resolve('./config', 'config.json'),
+  "models-path": path.resolve('./models'),
+  "seeders-path": path.resolve('./seeders'),
+  "migrations-path": path.resolve('./migrations')
+};

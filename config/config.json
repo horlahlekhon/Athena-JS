@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "athena",
+    "password": "athena",
+    "database": "athena",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "athena",
+    "password": "athena",
+    "database": "athena",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "athena",
+    "password": "athena",
+    "database": "athena",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
