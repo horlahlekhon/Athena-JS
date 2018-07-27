@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       count: {
         type: Sequelize.INTEGER

@@ -112,4 +112,76 @@ function job_category(error, response, body) {
 }
 request.get(JCategory, job_category);
 
+/////////////////////////////DEFINING COMPANIES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+var companyLocal = require('./models').companies
+
+var companiesOpt = {
+  url: "https://authenticjobs.com/api/?api_key=773918dd6e534968aea99da39185983d&method=aj.jobs.getCompanies&format=json",
+  headers: {
+    'Content-type': 'application/json'
+  }
+}
+
+function companyCallback(error, response, body) {
+  if (!error && response.statusCode == 200) {
+    var companyModels = JSON.parse(body)
+
+    for (var i = 0; i < companyModels.companies.company.length; i++) {
+      companyLocal.build({
+        companyid: companyModels.companies.company[i].id,
+        name: companyModels.companies.company[i].name,
+        url: companyModels.companies.company[i].url,
+        tagline: companyModels.companies.company[i].tagline,
+        location: companyModels.companies.company[i].location,
+        count: companyModels.companies.company[i].count
+      }).save()
+
+      app.use(logger("total of " + i + " companies saved"))
+    }
+
+  } else {
+    console.log("error " + error, response.statusCode)
+  }
+}
+request.get(companiesOpt, companyCallback);
+
+
+
+/////////////////////////////////////////////////////DEFINE DATA LOCATION\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+var location = require('./models').location
+
+var locationOpt = {
+  url: 'https://authenticjobs.com/api/?api_key=773918dd6e534968aea99da39185983d&method=aj.jobs.getlocations&format=json',
+  headers: {
+    'content-type': 'application/json'
+  }
+}
+
+
+function locationCallback(error, response, body) {
+  if (!error && response.statusCode) {
+    locationBody = JSON.parse(body)
+    var locationList = locationBody.locations.location
+    for (var i = 0; i < locationList.length; i++) {
+      location.build({
+        id: locationList.locid, name: locationList.name,
+        city: locationList.city,
+        country: locationList.country,
+        lat: locationList.lat,
+        lng: locationList.lng,
+        state: locationList.state
+      }).save()
+    }
+  } else {
+    app.use(logger('error --> ' + error, response.statusCode))
+    console.log("error --> ' + error , response.statusCode")
+  }
+
+}
+
+request.get(locationOpt, locationCallback)
+
+
 module.exports = app;
+
